@@ -2,10 +2,10 @@ name: Rust
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
     types: [opened, synchronize, reopened]
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
   CARGO_TERM_COLOR: always
@@ -20,7 +20,7 @@ jobs:
     # containers need to run in linux-based os
     runs-on: ubuntu-latest
     steps:
-      # download copy of code in repo 
+      # download copy of code in repo
       - name: Check out repository code
         # `uses` keyword specifies step will run specific ver. of CI tests
         uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
 
       - name: Run tests
         run: cargo test
-        
+
   # -- fmt -- #
   fmt:
     name: Rustfmt
@@ -44,7 +44,7 @@ jobs:
         with:
           components: rustfmt
       - name: Enforce formatting rules
-        run: cago fmt --check
+        run: cargo fmt --check
 
   clippy:
     name: Clippy
@@ -58,10 +58,10 @@ jobs:
       - name: Linting
         run: cargo clippy -- -D warnings # CI fails if clippy linter check emits any warning
 
-# NOTE: 
-# You can mute a warning using the #[allow(clippy::lint_name)] attribute on the affected code block or 
-# disable the noisy lint altogether for the whole project with a configuration line in clippy.toml or
-# a project- level #![allow(clippy::lint_name)] directive.
+  # NOTE:
+  # You can mute a warning using the #[allow(clippy::lint_name)] attribute on the affected code block or
+  # disable the noisy lint altogether for the whole project with a configuration line in clippy.toml or
+  # a project- level #![allow(clippy::lint_name)] directive.
 
   coverage:
     name: Code Coverage
@@ -78,12 +78,12 @@ jobs:
         run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info
       - name: Generate report
         run: cargo llvm-cov report --html --output-dir coverage
-      - uses: actions/upload-artifcat@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: "Coverage Report"
           path: coverage/
 
-  #  default stuff  # 
+  #  default stuff  #
   # build:
 
   #   runs-on: ubuntu-latest
